@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>tap击穿</title>
+
+    <style>
+        html, body {
+            height: 100%;
+            background: #eee;
+        }
+
+        canvas {
+            background: #fff;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<canvas width="500" height="400" id="canvas"></canvas>
+</div>
+
+<script>
+
+    var cvs = document.getElementById('canvas')
+    var ctx = cvs.getContext('2d')
+    // // 封装绘制的图形
+    // function draw () {
+    //     ctx.fillStyle = '#000';
+    //     ctx.beginPath();
+    //     ctx.moveTo(100,100);
+    //     ctx.bezierCurveTo(110,110,199,278,300,379);
+    //     ctx.lineTo(400,100)
+    //     ctx.closePath();
+    // }
+    // function circle () {
+    //     ctx.fillStyle = '#000';
+    //     ctx.beginPath();
+    //     ctx.arc(10,200,50,0,Math.PI*2)
+    //     ctx.closePath();
+    // }
+    // // 初始化绘制图形
+    // draw();
+    // ctx.fill()
+    // circle();
+    // ctx.fill()
+    // var fns = [draw,circle];
+    // // 监听鼠标事件
+    // cvs.onmousemove = function (e) {
+    //     // 得到鼠标的坐标
+    //     var x = e.offsetX, y =e.offsetY;
+    //     ctx.clearRect(0,0,500,500)
+    //     // 遍历绘制图形
+    //     for(var i = fns.length; i--;) {
+    //         fns[i]();
+    //         // 每绘制一个图形就判断一次当前鼠标的坐标是否在这个图形上，然后进行自定义操作
+    //         if(ctx.isPointInPath(x,y)) {
+    //             ctx.fillStyle = "#f00"
+    //         } else {
+    //             ctx.fillStyle = "#000"
+    //         }
+    //         ctx.fill()
+    //     }
+    // }
+
+    function getRandomPosition() {
+        var x = Math.floor(Math.random() * 500)
+        var y = Math.floor(Math.random() * 400)
+        return {x: x, y: y}
+    }
+
+    function draw(i) {
+        ctx.fillStyle = '#000'
+        ctx.beginPath()
+        ctx.arc(i * 20, i * 20, 10, 0, Math.PI * 2)
+        ctx.closePath()
+    }
+
+    for (var i = 0; i < 10; i++) {
+        draw(i)
+        ctx.fill()
+    }
+    cvs.onclick = function (e) {
+        console.log(e)
+        // 得到鼠标的坐标
+        var x = e.offsetX, y = e.offsetY
+        ctx.clearRect(0, 0, 500, 400)
+
+        for (var i = 0; i < 10; i++) {
+            draw(i)
+            if (ctx.isPointInPath(x, y)) {
+                ctx.fillStyle = "#f00"
+                ctx.shadowColor = "rgba(0,0,0,.7)";
+                ctx.shadowOffsetX = 4;
+                ctx.shadowBlur = 4;
+            } else {
+                ctx.shadowColor = '';
+                ctx.shadowOffsetX = 0;
+                ctx.shadowBlur = 0;
+            }
+            ctx.fill()
+        }
+
+
+    }
+
+</script>
+
+</body>
+</html>
