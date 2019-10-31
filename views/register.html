@@ -1,0 +1,120 @@
+{% extends "base.html" %} {% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> Please register</h3>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <div class="form-group">
+                            <label>name</label>
+                            <input type="text" name="name" class="form-control" placeholder="name" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label>phone</label>
+                            <input type="text" name="phone" class="form-control" placeholder="phone" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="Password" id="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="register">register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Get more courses...</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">JavaScript</h3>
+                </div>
+                <div class="panel-body">
+                    <p>full-stack JavaScript course</p>
+                    <p><a target="_blank"
+                            href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000">Read
+                            more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Python</h3>
+                </div>
+                <div class="panel-body">
+                    <p>the latest Python course</p>
+                    <p><a target="_blank"
+                            href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">Read
+                            more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">git</h3>
+                </div>
+                <div class="panel-body">
+                    <p>A course about git version control</p>
+                    <p><a target="_blank"
+                            href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">Read
+                            more</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% include 'commen_script.html' %}
+<script>
+    var register_btn = $('#register'), phone = $('#phone'), password = $('#password'),user_name = $('#name');
+    register_btn.on('click',function(e){
+        $.ajax({
+            type : "POST",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "/register",
+            //数据，json字符串
+            data : JSON.stringify({
+                phone: phone.val(),
+                password: password.val(),
+                name: user_name.val()
+            }),
+            complete: function(result) {
+                console.log(result)
+            },
+            //请求成功
+            success : function(result) {
+                console.log(result);
+                if(result.status === '1'){
+                    alert('注册成功，去登陆吧！')
+                    window.location.href='./'
+                } else {
+                    alert(result.message)
+                }
+                
+                
+            },
+            //请求失败，包含具体的错误信息
+            error : function(e){
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+        })
+        
+    })
+    
+</script>
+{% endblock %}
