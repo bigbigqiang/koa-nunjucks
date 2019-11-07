@@ -100,7 +100,7 @@
             success : function(result) {
                 console.log(result);
                 if(result.status === '1'){
-                    localStorage.setItem('token', result.data.token)
+                    // localStorage.setItem('token', result.data.token)
                     localStorage.setItem('uid', result.data.uid)
                     window.location.href='./'
                 }
